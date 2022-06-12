@@ -1,0 +1,24 @@
+name: Random color
+
+inputs:
+  userName:
+    description: User name of the requester
+    required: true
+
+outputs:
+  color:
+    description: Randomly selected color
+    value: ${{ steps.get-random-color.outputs.color }}
+
+runs:
+  using: composite
+  steps:
+    - name: Log user name
+      run: echo "User ${{ inputs.userName }} has started the composite action"
+    - name: Get random color
+      id: get-random-color
+      shell: python
+      run: |
+        import random
+        color = random.choice(["red", "green", "blue"])
+        print("::set-output name=color::{}".format(color))
